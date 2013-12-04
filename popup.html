@@ -19,7 +19,7 @@
         <h1>Calcule a hora de ir embora!</h1>
         <div class="well">
           <label for="arrived_at">Entrada:</label>
-          <input type="time" id="arrived_at" class="mini" />
+          <input type="time" id="arrived_at" class="small" />
           <input type="submit" id="calc_button" class="btn primary" value="Calcular" />
           <p>Horário base: <span id="base_time"></span> <a href="#" id="edit_base_time">Alterar</a></p>
         </div>
@@ -28,21 +28,17 @@
       <div class="alert-message">Mínimo: <strong id="min_time"></strong></div>
       <div class="alert-message success">Normal: <strong id="regular_time"></strong></div>
       <div class="alert-message error">Máximo: <strong id="max_time"></strong></div>
+
+      <div class="progress progress-striped active">
+        <div class="progress-bar">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+
     </div>
     <script type="text/javascript" src="assets/javascripts/jquery.js"></script>
     <script type="text/javascript" src="assets/javascripts/calculator.js"></script>
     <script type="text/javascript" src="assets/javascripts/calculator_controller.js"></script>
     <script type="text/javascript" src="assets/javascripts/calculator_initializer.js"></script>
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-11460077-4']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
   </body>
 </html>
