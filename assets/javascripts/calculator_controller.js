@@ -41,8 +41,6 @@ var CalculatorController = function(calculator) {
     var percentElapsed = calculator.percentElapsed(arrivedAt).toFixed(2) + "%";
     var remainingTimeFormated = (((remainingTime + fiveMinutes*3) / 1000) / 60).toFixed(1);
     var minutosTime = Math.abs(remainingTimeFormated);
-    var h = parseInt(minutosTime / 60).toString();
-    var m = parseInt(minutosTime % 60).toString();
     var minimoTime = minutosTime - 30;
     var minimoTimeBG = "#d9534f";
 
@@ -56,12 +54,14 @@ var CalculatorController = function(calculator) {
       $(".progress-bar").addClass("progress-bar-danger");
 
       var msgExtra;
+      var minutosExtra = 15;
+      var h = parseInt((minutosTime + minutosExtra) / 60).toString();
+      var m = parseInt((minutosTime + minutosExtra) % 60).toString();
+
       if(minutosTime == 0) {
         msgExtra = "Já era! Vai gerar HORA EXTRA!";
-      } else if(minutosTime < 10) {
-        msgExtra = minutosTime + " minuto de HORA EXTRA!";
       } else if(minutosTime < 60) {
-        msgExtra = minutosTime + " minutos de HORA EXTRA!";
+        msgExtra = (minutosTime + minutosExtra) + " minutos de HORA EXTRA!";
       } else {
         msgExtra = lpad("0", h, 2) + "h" + lpad("0", m, 2) + "m de HORA EXTRA!";
       }
@@ -72,7 +72,7 @@ var CalculatorController = function(calculator) {
       minimoTimeBG = "#5bc0de";
       if( (remainingTime + fiveMinutes*3) <= fiveMinutes ) { // 5min para o maximo
         $(".progress-bar").addClass("progress-bar-danger");
-        $(".progress-bar .sr-only").html(minutosTime + " MINUTOS!!!");
+        $(".progress-bar .sr-only").html(minutosTime + ((minutosTime == 1) ? " MINUTO!!!" : " MINUTOS!!!"));
         minimoTimeBG = "#d9534f";
       } else if( (remainingTime + fiveMinutes*2) <= fiveMinutes*3 ) { // 5min para o normal
         $(".progress-bar").addClass("progress-bar-warning");
