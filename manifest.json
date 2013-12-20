@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "Calcule a hora de ir embora!",
-	"version": "2.0",
+	"name": "Time to go!",
+	"version": "2.2",
 	"description": "Calcule a hora de ir embora!",
 	"icons": {
 		"16": "assets/images/overtime.png",

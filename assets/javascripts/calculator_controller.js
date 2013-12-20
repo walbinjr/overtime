@@ -43,8 +43,12 @@ var CalculatorController = function(calculator) {
     var minutosTime = Math.abs(remainingTimeFormated);
     var minimoTime = minutosTime - 30;
     var minimoTimeBG = "#d9534f";
+    var hmin = parseInt(minimoTime / 60).toString();
+    var mmin = parseInt(minimoTime % 60).toString();
+    minimoTime = (minimoTime < 60) ? mmin + "m" : hmin + "h" + lpad("0", mmin, 2) + "min";
+    minimoTimeToBagde = (minimoTime < 60) ? mmin + "m" : hmin + ":" + lpad("0", mmin, 2);
 
-    $(".progress-bar .sr-only").html(percentElapsed);
+    $(".progress .sr-only").html(minimoTime + " para o mínimo");
     $(".progress-bar").width(percentElapsed);
     $(".progress-bar").removeClass("progress-bar-danger").removeClass("progress-bar-warning").removeClass("progress-bar-success");
 
@@ -60,44 +64,43 @@ var CalculatorController = function(calculator) {
 
       if(minutosTime == 0) {
         msgExtra = "Já era! Vai gerar HORA EXTRA!";
-      } else if(minutosTime < 60) {
+      } else if((minutosTime + minutosExtra) < 60) {
         msgExtra = (minutosTime + minutosExtra) + " minutos de HORA EXTRA!";
+      } else if((minutosTime + minutosExtra) <= 120) {
+        msgExtra = lpad("0", h, 2) + "h" + lpad("0", m, 2) + "min de HORA EXTRA!";
       } else {
-        msgExtra = lpad("0", h, 2) + "h" + lpad("0", m, 2) + "m de HORA EXTRA!";
+        msgExtra = "Acima de 2 Horas Extras! Parei de contar!";
       }
 
-      $(".progress-bar .sr-only").html(msgExtra);
+      $(".progress .sr-only").html(msgExtra);
       chrome.browserAction.setBadgeText({ text: "Extra" });
     } else {
       minimoTimeBG = "#5bc0de";
       if( (remainingTime + fiveMinutes*3) <= fiveMinutes ) { // 5min para o maximo
         $(".progress-bar").addClass("progress-bar-danger");
-        $(".progress-bar .sr-only").html(minutosTime + ((minutosTime == 1) ? " MINUTO!!!" : " MINUTOS!!!"));
+        $(".progress .sr-only").html(minutosTime + ((minutosTime == 1) ? " MINUTO!!!" : " MINUTOS!!!"));
         minimoTimeBG = "#d9534f";
       } else if( (remainingTime + fiveMinutes*2) <= fiveMinutes*3 ) { // 5min para o normal
         $(".progress-bar").addClass("progress-bar-warning");
-        $(".progress-bar .sr-only").html("Ainda está aqui?");
+        $(".progress .sr-only").html("Ainda está aqui?");
         minimoTimeBG = "#f0ad4e";
       } else if( remainingTime <= fiveMinutes*4 ) { // 5min para o minimo
         $(".progress-bar").addClass("progress-bar-success");
-        $(".progress-bar .sr-only").html("Arrume suas coisas!");
+        $(".progress .sr-only").html("Arrume suas coisas!");
         minimoTimeBG = "#5cb85c";
-      } else {
-        var hmin = parseInt(minimoTime / 60).toString();
-        var mmin = parseInt(minimoTime % 60).toString();
-        minimoTime = hmin + ":" + lpad("0", mmin, 2);
       }
 
       // Label Icon with the earlier time
-      chrome.browserAction.setBadgeText({ text: minimoTime.toString() });
-      // Call timers
-      chrome.extension.getBackgroundPage().startTimer(
-        remainingTime,
-        calculator.minTime(arrivedAt),
-        calculator.regularTime(arrivedAt),
-        calculator.maxTime(arrivedAt)
-      );
+      chrome.browserAction.setBadgeText({ text: minimoTimeToBagde.toString() });
     }
+
+    // Call timers
+    chrome.extension.getBackgroundPage().startTimer(
+      remainingTime,
+      calculator.minTime(arrivedAt),
+      calculator.regularTime(arrivedAt),
+      calculator.maxTime(arrivedAt)
+    );
 
     // Label Icon with the earlier time bg
     chrome.browserAction.setBadgeBackgroundColor({ color: minimoTimeBG });

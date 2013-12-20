@@ -1,7 +1,7 @@
 body {
   padding-top: 30px;
   width: 330px;
-  height: 430px;
+  height: 380px;
 }
 
 .well {
@@ -19,4 +19,16 @@ body {
 }
 .container-fluid input[type='time'] {
   width: 95px;
+}
+.progress .sr-only {
+	color: #000;
+	position: absolute;
+	width: 290px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	overflow: hidden;
+}
+.progress .sr-only span {
+	font-size: 11px;
 }

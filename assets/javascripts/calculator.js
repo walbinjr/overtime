@@ -27,6 +27,13 @@ var Calculator = function() {
     var dateTimeToGo = new Date();
     dateTimeToGo.setHours(hours, minutes);
 
+//alert("NOW: " + dateTimeNow + "\nTOGO: " + dateTimeToGo);
+    // Caso em que o horario ultrapassa meia noite, utiliza data de ontem
+    if(dateTimeToGo.getTime() < dateTimeNow.getTime())
+      dateTimeNow.setDate(dateTimeNow.getDate() - 1);
+
+//alert("NOW: " + dateTimeNow + "\nTOGO: " + dateTimeToGo);
+
     return dateTimeToGo.getTime() - dateTimeNow.getTime();
   };
 
