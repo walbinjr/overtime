@@ -35,6 +35,7 @@ var CalculatorController = function(calculator) {
     $("#min_time").html(calculator.minTime(arrivedAt));
     $("#regular_time").html(calculator.regularTime(arrivedAt));
     $("#max_time").html(calculator.maxTime(arrivedAt));
+    $("#max_extra_time").html(calculator.maxExtraTime(arrivedAt));
 
     var fiveMinutes = (5 * 60 * 1000);
     var remainingTime = calculator.remainingTime(arrivedAt);
