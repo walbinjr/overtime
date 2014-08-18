@@ -32,7 +32,7 @@ var Calculator = function() {
   };
 
   var checkHolidaysRules = function(time) {
-    if( JSON.parse(window.localStorage.checkHolidays) ) {
+    if( JSON.parse(window.localStorage.checkHolidays || false) ) {
       if((time == "09:48" || time == "09:00") && holidays.getNextHolidayOnSaturday() != null) {
         time = "09:00";
         $("#sat_holiday span").html(holidays.getNextHolidayOnSaturday());
