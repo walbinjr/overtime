@@ -1,4 +1,5 @@
 var Calculator = function() {
+  var holidays = new Holidays();
   var baseTime;
 
   var timeAsString = function(time) {
@@ -30,8 +31,25 @@ var Calculator = function() {
     return dateTimeToGo.getTime() - dateTimeNow.getTime();
   };
 
+  var checkHolidaysRules = function(time) {
+    if( JSON.parse(window.localStorage.checkHolidays) ) {
+      if((time == "09:48" || time == "09:00") && holidays.getNextHolidayOnSaturday() != null) {
+        time = "09:00";
+        $("#sat_holiday span").html(holidays.getNextHolidayOnSaturday());
+        $("#sat_holiday").fadeIn();
+      } else if(time == "09:00" && holidays.getNextHolidayOnSaturday() == null) {
+        time = "09:48";
+        $("#sat_holiday").fadeOut();
+      } else {
+        $("#sat_holiday").fadeOut();
+      }
+    }
+    return time;
+  }
+
   return {
     setBaseTime: function(time){
+      time = checkHolidaysRules(time);
       window.localStorage.baseTime = time;
       var collection = time.split(/[^0-9]/);
       var hours = parseInt(collection[0], 10);

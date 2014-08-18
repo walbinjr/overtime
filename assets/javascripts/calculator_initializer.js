@@ -1,9 +1,10 @@
 $(document).ready(function () {
   $("#arrived_at").val(window.localStorage.time);
+  $("#sat_holiday_check").prop('checked', JSON.parse(window.localStorage.checkHolidays));
   var baseTime = window.localStorage.baseTime || "09:48";
-  $("#base_time").html(baseTime);
   var calculator = new Calculator();
   calculator.setBaseTime(baseTime);
+  $("#base_time").html(window.localStorage.baseTime);
   new CalculatorController(calculator);
   $("#arrived_at").focus();
 });

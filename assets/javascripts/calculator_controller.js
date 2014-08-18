@@ -6,6 +6,17 @@ var CalculatorController = function(calculator) {
     });
   };
 
+  var bindHolidayCheckbox = function() {
+    $("#sat_holiday_check").click(function(event) {
+      window.localStorage.checkHolidays = $(this).prop('checked');
+      if( $(this).prop('checked') ) {
+        calculator.setBaseTime(window.localStorage.baseTime);
+      } else {
+        $("#sat_holiday").fadeOut();
+      }
+    });
+  }
+
   var bindEditBaseTimeLink = function() {
     $("#edit_base_time").click(function(event) {
       event.preventDefault();
@@ -16,7 +27,7 @@ var CalculatorController = function(calculator) {
       } else {
         var baseTime = $("#base_time_input").val();
         calculator.setBaseTime(baseTime);
-        $("#base_time").html(baseTime);
+        $("#base_time").html(window.localStorage.baseTime);
         $("#edit_base_time").html("Alterar");
       }
     });
@@ -113,4 +124,5 @@ var CalculatorController = function(calculator) {
 
   bindCalcButton();
   bindEditBaseTimeLink();
+  bindHolidayCheckbox();
 }
