@@ -49,11 +49,12 @@ var CalculatorController = function(calculator) {
     $("#max_extra_time").html(calculator.maxExtraTime(arrivedAt));
 
     var fiveMinutes = (5 * 60 * 1000);
+    var minutosExtra = 10;
     var remainingTime = calculator.remainingTime(arrivedAt);
     var percentElapsed = calculator.percentElapsed(arrivedAt).toFixed(2) + "%";
-    var remainingTimeFormated = (((remainingTime + fiveMinutes*3) / 1000) / 60).toFixed(1);
+    var remainingTimeFormated = (((remainingTime + fiveMinutes*2) / 1000) / 60).toFixed(1);
     var minutosTime = Math.abs(remainingTimeFormated);
-    var minimoTime = minutosTime - 30;
+    var minimoTime = minutosTime - 20;
     var minimoTimeBG = "#d9534f";
     var hmin = parseInt(minimoTime / 60).toString();
     var mmin = parseInt(minimoTime % 60).toString();
@@ -66,11 +67,10 @@ var CalculatorController = function(calculator) {
 
     chrome.extension.getBackgroundPage().clearTimers();
 
-    if( (remainingTime + fiveMinutes*3) <= 0 ) { // Hora Extra
+    if( (remainingTime + fiveMinutes*2) <= 0 ) { // Hora Extra
       $(".progress-bar").addClass("progress-bar-danger");
 
       var msgExtra;
-      var minutosExtra = 15;
       var h = parseInt((minutosTime + minutosExtra) / 60).toString();
       var m = parseInt((minutosTime + minutosExtra) % 60).toString();
 
@@ -88,15 +88,15 @@ var CalculatorController = function(calculator) {
       chrome.browserAction.setBadgeText({ text: "Extra" });
     } else {
       minimoTimeBG = "#5bc0de";
-      if( (remainingTime + fiveMinutes*3) <= fiveMinutes ) { // 5min para o maximo
+      if( (remainingTime + fiveMinutes*2) <= fiveMinutes ) { // 5min para o maximo
         $(".progress-bar").addClass("progress-bar-danger");
         $(".progress .sr-only").html(minutosTime + ((minutosTime == 1) ? " MINUTO!!!" : " MINUTOS!!!"));
         minimoTimeBG = "#d9534f";
-      } else if( (remainingTime + fiveMinutes*2) <= fiveMinutes*3 ) { // 5min para o normal
+      } else if( (remainingTime + fiveMinutes) <= fiveMinutes*2 ) { // 5min para o normal
         $(".progress-bar").addClass("progress-bar-warning");
         $(".progress .sr-only").html("Ainda está aqui?");
         minimoTimeBG = "#f0ad4e";
-      } else if( remainingTime <= fiveMinutes*4 ) { // 5min para o minimo
+      } else if( remainingTime <= fiveMinutes*3 ) { // 5min para o minimo
         $(".progress-bar").addClass("progress-bar-success");
         $(".progress .sr-only").html("Arrume suas coisas!");
         minimoTimeBG = "#5cb85c";
@@ -111,7 +111,8 @@ var CalculatorController = function(calculator) {
       remainingTime,
       calculator.minTime(arrivedAt),
       calculator.regularTime(arrivedAt),
-      calculator.maxTime(arrivedAt)
+      calculator.maxTime(arrivedAt),
+      calculator.maxExtraTime(arrivedAt)
     );
 
     // Label Icon with the earlier time bg

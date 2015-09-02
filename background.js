@@ -23,49 +23,49 @@ function clearTimers() {
 	clearInterval(intervalMaxExtra);
 	clearInterval(intervalPerm);
 }
-function startTimer(intervalRemains, minTime, regularTime, maxTime) {
+function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra) {
 	interval = intervalRemains;
-	var calcMin = interval - (20 * 60 * 1000);
+	var calcMin = interval - (15 * 60 * 1000);
 	var calcReg = interval - (5 * 60 * 1000);
-	var calcMax = interval + (10 * 60 * 1000);
+	var calcMax = interval + (5 * 60 * 1000);
 	var calcMaxExtra = interval + (115 * 60 * 1000);
 	//alert(calcMin/1000/60 + " : " + calcReg/1000/60 + " : " + calcMax/1000/60 + " : " + calcMaxExtra/1000/60);
 	if(calcMin > 0) {
 		notificationMin = {
-			type: "basic",
-			iconUrl: 'assets/images/overtime.png',
-			title: 'Horário Mínimo - ' + minTime,
-			message: '5 min para o Horário Mínimo ' + minTime + '... ARRUME SUAS COISAS!'
+			tag: 'overtimeAlertMin',
+			icon: 'assets/images/overtime.png',
+			title: '5min para o Horário Mínimo: ' + minTime,
+			body: 'ARRUME SUAS COISAS!'
 		}
 		intervalMin = setInterval(showMin, calcMin);
 	}
 	
 	if(calcReg > 0) {
 		notificationRegular = {
-			type: "basic",
-			iconUrl: 'assets/images/overtime.png',
-			title: 'Horário Normal - ' + regularTime,
-			message: '5 min para o Horário Normal ' + regularTime + '... AINDA ESTÁ AQUI?'
+			tag: 'overtimeAlertRegular',
+			icon: 'assets/images/overtime.png',
+			title: '5min para o Horário Normal: ' + regularTime,
+			body: 'AINDA ESTÁ AQUI?'
 		}
 		intervalReg = setInterval(showRegular, calcReg);
 	}
 
 	if(calcMax > 0) {
 		notificationMax = {
-			type: "basic",
-			iconUrl: 'assets/images/overtime.png',
-			title: 'Horário Máximo - ' + maxTime,
-			message: '5 min para o Horário Máximo ' + maxTime + '... ÚLTIMO AVISO!'
+			tag: 'overtimeAlertMax',
+			icon: 'assets/images/overtime.png',
+			title: '5min para o Horário Máximo: ' + maxTime,
+			body: 'ÚLTIMO AVISO!'
 		}
 		intervalMax = setInterval(showMax, calcMax);
 	}
 
 	if(calcMaxExtra > 0) {
 		notificationMaxExtra = {
-			type: "basic",
-			iconUrl: 'assets/images/overtime.png',
-			title: 'Máximo de Horas Extras!',
-			message: '5 min para o Máximo de Horas Extras... AGORA É POR SUA CONTA E RISCO!'
+			tag: 'overtimeAlertMaxExtra',
+			icon: 'assets/images/overtime.png',
+			title: '5min para o Máximo de Extra: ' + maxTimeExtra,
+			body: 'AGORA É POR SUA CONTA E RISCO!'
 		}
 		intervalMaxExtra = setInterval(showMaxExtra, calcMaxExtra);
 	}
@@ -75,23 +75,23 @@ function startTimer(intervalRemains, minTime, regularTime, maxTime) {
 
 // Then show the notification.
 function showMin(){
-	chrome.notifications.create('overtimeAlertMin', notificationMin, creationCallback);
+	new Notification(notificationMin.title, notificationMin);
 	clearInterval(intervalMin);
 }
 function showRegular(){
-	chrome.notifications.create('overtimeAlertRegular', notificationRegular, creationCallback);
+	new Notification(notificationRegular.title, notificationRegular);
 	clearInterval(intervalReg);
 }
 function showMax(){
-	chrome.notifications.create('overtimeAlertMax', notificationMax, creationCallback);
+	new Notification(notificationMax.title, notificationMax);
 	clearInterval(intervalMax);
 }
 function showMaxExtra(){
-	chrome.notifications.create('overtimeAlertMaxExtra', notificationMaxExtra, creationCallback);
+	new Notification(notificationMaxExtra.title, notificationMaxExtra);
 	clearInterval(intervalMaxExtra);
 }
 function updateBadge(){
-	var remaining = (interval - (15 * 60 * 1000)) - (1 * 60 * 1000);
+	var remaining = (interval - (10 * 60 * 1000)) - (1 * 60 * 1000);
 
 	if( remaining > -1800000 ) {
 		var timeBadge = new Date();

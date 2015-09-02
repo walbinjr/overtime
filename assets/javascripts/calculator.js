@@ -1,5 +1,6 @@
 var Calculator = function() {
   var holidays = new Holidays();
+  var baseTolerance = 10;
   var baseTime;
 
   var timeAsString = function(time) {
@@ -58,7 +59,7 @@ var Calculator = function() {
     },
 
     minTime: function(arrivedAt) {
-      var period = (baseTime - (15 * 60 * 1000));
+      var period = (baseTime - (baseTolerance * 60 * 1000));
       var dateTime = new Date(period);
       return calcTime(arrivedAt, period);
     },
@@ -68,7 +69,7 @@ var Calculator = function() {
     },
 
     maxTime: function(arrivedAt) {
-      var period = (baseTime + (15 * 60 * 1000));
+      var period = (baseTime + (baseTolerance * 60 * 1000));
       return calcTime(arrivedAt, period);
     },
 
@@ -86,7 +87,7 @@ var Calculator = function() {
     },
 
     percentElapsed: function(arrivedAt) {
-      var period = (baseTime + (15 * 60 * 1000));
+      var period = (baseTime + (baseTolerance * 60 * 1000));
       var percent = ((( period - calcRemainingTime(calcTime(arrivedAt, period)) ) * 100) / period);
       return (percent > 100) ? 100 : percent;
     }
