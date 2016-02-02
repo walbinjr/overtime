@@ -6,11 +6,7 @@ http://brunograsselli.github.com/overtime
 
 ## Instalação
 
-1. Clique no Botão ao lado direito: "Download ZIP"
-2. Digite o endereço no Chrome: [chrome://extensions](chrome://extensions)
-3. Selecione a opção "Modo do Desenvolvedor"
-4. Clique no botão "Carregar extensão expandida..."
-5. Selecione a pasta onde estão os arquivos que você extraiu do ZIP
+[Link para WebStore](https://chrome.google.com/webstore/detail/time-to-go/baabcknecemlkbplhjgjfoahebamghog?hl=en-US&utm_source=chrome-ntp-launcher)
 
 ## Contribuir
 
