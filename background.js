@@ -23,14 +23,16 @@ function clearTimers() {
 	clearInterval(intervalMaxExtra);
 	clearInterval(intervalPerm);
 }
-function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra) {
+function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra, minutosExtraInMili) {
 	interval = intervalRemains;
-	var calcMin = interval - (15 * 60 * 1000);
-	var calcReg = interval - (5 * 60 * 1000);
-	var calcMax = interval + (5 * 60 * 1000);
-	var calcMaxExtra = interval + (115 * 60 * 1000);
+	var fiveMinutes = (5 * 60 * 1000);
+	var twoHours = (120 * 60 * 1000);
+	var calcMin = interval - minutosExtraInMili - fiveMinutes;
+	var calcReg = interval - fiveMinutes;
+	var calcMax = interval + minutosExtraInMili - fiveMinutes;
+	var calcMaxExtra = interval + twoHours - fiveMinutes;
 	//alert(calcMin/1000/60 + " : " + calcReg/1000/60 + " : " + calcMax/1000/60 + " : " + calcMaxExtra/1000/60);
-	if(calcMin > 0) {
+	if(calcMin > 0 && minutosExtraInMili > 0) {
 		notificationMin = {
 			tag: 'overtimeAlertMin',
 			icon: 'assets/images/overtime.png',
@@ -50,7 +52,7 @@ function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra
 		intervalReg = setInterval(showRegular, calcReg);
 	}
 
-	if(calcMax > 0) {
+	if(calcMax > 0 && minutosExtraInMili > 0) {
 		notificationMax = {
 			tag: 'overtimeAlertMax',
 			icon: 'assets/images/overtime.png',

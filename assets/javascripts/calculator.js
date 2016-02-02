@@ -58,6 +58,11 @@ var Calculator = function() {
       baseTime = ((hours * 60 + minutes) * 60 * 1000);
     },
 
+    setToleranceTime: function(minutes){
+      window.localStorage.toleranceTime = minutes;
+      baseTolerance = minutes || 0;
+    },
+
     minTime: function(arrivedAt) {
       var period = (baseTime - (baseTolerance * 60 * 1000));
       var dateTime = new Date(period);
