@@ -7,6 +7,7 @@ var Holidays = function() {
     , [new Date(yearNow, 3, 21) , "Tiradentes"]
     , [new Date(yearNow, 4, 1)  , "Dia do Trabalho"]
     , [new Date(yearNow, 5, 19) , "Corpus Christi"]
+    , [new Date(yearNow, 6, 9)  , "Revolução Constitucionalista de 1932"]
     , [new Date(yearNow, 8, 7)  , "Independência do Brasil"]
     , [new Date(yearNow, 9, 12) , "Nossa Sr.a Aparecida"]
     , [new Date(yearNow, 10, 2) , "Finados"]
