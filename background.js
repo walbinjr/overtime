@@ -3,8 +3,9 @@
 // allowed create notifications.
 
 // Create a simple text notification:
-var notificationRegular, notificationMin, notificationMax, notificationMaxExtra,
-	interval, intervalMin, intervalReg, intervalMax, intervalMaxExtra, intervalPerm;
+var notificationRegularOptions, notificationMinOptions, notificationMaxOptions, notificationMaxExtraOptions, notificationResetTimeOptions,
+	notificationRegular, notificationMin, notificationMax, notificationMaxExtra, notificationResetTime,
+	interval, intervalMin, intervalReg, intervalMax, intervalMaxExtra, intervalResetTime, intervalPerm;
 
 function twoDigits(string) {
 	var collection = ("00" + string).split("");
@@ -21,6 +22,7 @@ function clearTimers() {
 	clearInterval(intervalReg);
 	clearInterval(intervalMax);
 	clearInterval(intervalMaxExtra);
+	clearInterval(intervalResetTime);
 	clearInterval(intervalPerm);
 }
 function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra, minutosExtraInMili) {
@@ -31,9 +33,10 @@ function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra
 	var calcReg = interval - fiveMinutes;
 	var calcMax = interval + minutosExtraInMili - fiveMinutes;
 	var calcMaxExtra = interval + twoHours - fiveMinutes;
+	var calcResetTime = interval + twoHours;
 	//alert(calcMin/1000/60 + " : " + calcReg/1000/60 + " : " + calcMax/1000/60 + " : " + calcMaxExtra/1000/60);
 	if(calcMin > 0 && minutosExtraInMili > 0) {
-		notificationMin = {
+		notificationMinOptions = {
 			tag: 'overtimeAlertMin',
 			icon: 'assets/images/overtime.png',
 			title: '5min para o Horário Mínimo: ' + minTime,
@@ -43,7 +46,7 @@ function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra
 	}
 	
 	if(calcReg > 0) {
-		notificationRegular = {
+		notificationRegularOptions = {
 			tag: 'overtimeAlertRegular',
 			icon: 'assets/images/overtime.png',
 			title: '5min para o Horário Normal: ' + regularTime,
@@ -53,7 +56,7 @@ function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra
 	}
 
 	if(calcMax > 0 && minutosExtraInMili > 0) {
-		notificationMax = {
+		notificationMaxOptions = {
 			tag: 'overtimeAlertMax',
 			icon: 'assets/images/overtime.png',
 			title: '5min para o Horário Máximo: ' + maxTime,
@@ -63,7 +66,7 @@ function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra
 	}
 
 	if(calcMaxExtra > 0) {
-		notificationMaxExtra = {
+		notificationMaxExtraOptions = {
 			tag: 'overtimeAlertMaxExtra',
 			icon: 'assets/images/overtime.png',
 			title: '5min para o Máximo de Extra: ' + maxTimeExtra,
@@ -72,25 +75,45 @@ function startTimer(intervalRemains, minTime, regularTime, maxTime, maxTimeExtra
 		intervalMaxExtra = setInterval(showMaxExtra, calcMaxExtra);
 	}
 
+	if(calcResetTime > 0) {
+		notificationResetTimeOptions = {
+			tag: 'overtimeAlertResetTime',
+			icon: 'assets/images/overtime.png',
+			title: 'Horário de entrada apagado',
+			body: 'ATÉ AMANHÃ!'
+		}
+		intervalResetTime = setInterval(showResetTime, calcResetTime);
+	}
+
 	//intervalPerm = setInterval(updateBadge, 60000); // 1 min
 }
 
 // Then show the notification.
 function showMin(){
-	new Notification(notificationMin.title, notificationMin);
+	notificationMin = new Notification(notificationMinOptions.title, notificationMinOptions);
 	clearInterval(intervalMin);
 }
 function showRegular(){
-	new Notification(notificationRegular.title, notificationRegular);
+	notificationMin.close();
+	notificationRegular = new Notification(notificationRegularOptions.title, notificationRegularOptions);
 	clearInterval(intervalReg);
 }
 function showMax(){
-	new Notification(notificationMax.title, notificationMax);
+	notificationRegular.close();
+	notificationMax = new Notification(notificationMaxOptions.title, notificationMaxOptions);
 	clearInterval(intervalMax);
 }
 function showMaxExtra(){
-	new Notification(notificationMaxExtra.title, notificationMaxExtra);
+	notificationMax.close();
+	notificationMaxExtra = new Notification(notificationMaxExtraOptions.title, notificationMaxExtraOptions);
 	clearInterval(intervalMaxExtra);
+}
+function showResetTime(){
+	notificationMaxExtra.close();
+	window.localStorage.removeItem('time');
+	chrome.browserAction.setBadgeText({ text: '' });
+	notificationResetTime = new Notification(notificationResetTimeOptions.title, notificationResetTimeOptions);
+	clearInterval(intervalResetTime);
 }
 function updateBadge(){
 	var remaining = (interval - (10 * 60 * 1000)) - (1 * 60 * 1000);
