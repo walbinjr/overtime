@@ -1,0 +1,29 @@
+{
+  "name": "overtime",
+  "version": "1.0.0",
+  "description": "Calculate the time to go home to avoid overtime",
+  "main": "index.html",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walbinjr/overtime.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "overtime",
+    "calculator",
+    "time",
+    "calculator"
+  ],
+  "author": "Walter Jr., Bruno Bulnes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/walbinjr/overtime/issues"
+  },
+  "homepage": "https://github.com/walbinjr/overtime#readme"
+}
